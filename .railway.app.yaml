@@ -1,8 +1,0 @@
-services:
-  web:
-    image: node:18
-    environment:
-      - NODE_ENV=production
-    buildCommand: 'npm install && npm run build'
-    startCommand: 'npm start'
-    port: 5000
