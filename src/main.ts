@@ -31,7 +31,6 @@ export function initEventListeners(): void {
   initCartButtonEventListener();
   initAccountButtonEventListeners();
   initCartEventListeners();
-  initCheckoutEventListeners();
   initAdminEventListeners();
   initNavbarEventListeners();
 }

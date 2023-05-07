@@ -8,7 +8,10 @@ import { initEventListeners } from './main';
 import { getStoredCart } from './functions/cartButton';
 import checkoutIndex from './views/checkout/checkoutIndex';
 import accountIndex from './views/account/accountIndex';
-import { checkIfCheckoutAllowed } from './functions/checkout';
+import {
+  checkIfCheckoutAllowed,
+  initCheckoutEventListeners,
+} from './functions/checkout';
 import orderConfirmationIndex from './views/order-confirmation/orderConfirmationIndex';
 import getUserOrders from './api/orders';
 import { checkIfAdminAllowed } from './functions/admin';
@@ -50,8 +53,10 @@ router
   })
 
   .on('/checkout', async () => {
+    initCheckoutEventListeners();
+
     if (!checkIfCheckoutAllowed()) {
-      router.navigate('/cart');
+      // router.navigate('/cart');
     }
     const storedUser = await getStoredUser();
     const storedCart = getStoredCart();
