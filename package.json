@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "node server.js"
+    "start": "node dist/server.js"
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.1",
