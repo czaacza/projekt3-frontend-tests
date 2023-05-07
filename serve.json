@@ -1,4 +1,9 @@
 {
   "public": "dist",
-  "single": true
+  "rewrites": [
+    {
+      "source": "**",
+      "destination": "/index.html"
+    }
+  ]
 }
