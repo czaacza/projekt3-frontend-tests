@@ -87,6 +87,14 @@ export function initCartButtonEventListener(): void {
       router.navigate('/cart');
     });
   }
+
+  const moveToCartButton = document.querySelector('.move-to-cart-button');
+  if (moveToCartButton) {
+    moveToCartButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      router.navigate('/cart');
+    });
+  }
 }
 
 export function getStoredCart(): Cart | undefined {

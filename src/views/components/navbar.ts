@@ -22,7 +22,7 @@ export default function navbar(user?: any, cart?: Cart): string {
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
+      <li class="nav-item active home-button">
         <a class="nav-link" href="/"
           >Home <span class="sr-only">(current)</span></a
         >
@@ -41,7 +41,7 @@ export default function navbar(user?: any, cart?: Cart): string {
         <a
           class="nav-link btn btn-account btn-primary"
           id="account-button"
-          href="/account/"
+          href="/account"
           >My account</a
         >
       </li>
@@ -146,7 +146,7 @@ export default function navbar(user?: any, cart?: Cart): string {
         <div class="cart-total">Total: $<span class="cart-total-price">
         ${cart && cart.total ? cart.total.toFixed(2) : '0.00'}
         </span></div>
-        <a href="/cart/"> <button class="btn btn-primary">Move to cart</button></a>
+        <a href="/cart/"> <button class="btn btn-primary move-to-cart-button">Move to cart</button></a>
       </div>
     </div>
       </li>
