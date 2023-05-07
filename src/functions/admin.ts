@@ -1,6 +1,8 @@
 import router from '../router';
 import { initUserSectionEventListeners } from './adminUserPanel';
 import { initProductSectionEventListeners } from './adminProductsPanel';
+import { getStoredUser } from '../api/users';
+import { User } from '../interfaces/User';
 
 export const initAdminEventListeners = (): void => {
   initAdminButtonEventListener();

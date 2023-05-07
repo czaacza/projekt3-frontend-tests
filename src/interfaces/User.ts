@@ -1,3 +1,5 @@
+import { Document, Schema } from 'mongoose';
+
 interface User {
   id: string;
   username: string;

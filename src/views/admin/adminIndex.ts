@@ -1,3 +1,7 @@
+import {
+  generateUsersList,
+  initSearchUsers,
+} from '../../functions/adminUserPanel';
 import { Book } from '../../interfaces/Book';
 import { Cart } from '../../interfaces/Cart';
 import { User } from '../../interfaces/User';
