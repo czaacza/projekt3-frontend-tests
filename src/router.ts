@@ -5,7 +5,7 @@ import cartIndex from './views/cart/cartIndex';
 import { getStoredUser } from './api/users';
 import { fetchProducts } from './api/products';
 import { initEventListeners } from './main';
-import { getStoredCart, updateCartTotal } from './functions/cartButton';
+import { getStoredCart } from './functions/cartButton';
 import checkoutIndex from './views/checkout/checkoutIndex';
 import accountIndex from './views/account/accountIndex';
 import { checkIfCheckoutAllowed } from './functions/checkout';
@@ -110,9 +110,8 @@ router
   })
 
   .on('/order-confirmation', async () => {
-    const storedUser = await getStoredUser();
     const contentElement = document.querySelector<HTMLDivElement>('#app');
-    contentElement!.innerHTML = orderConfirmationIndex(storedUser);
+    contentElement!.innerHTML = orderConfirmationIndex();
     initEventListeners();
   })
 
