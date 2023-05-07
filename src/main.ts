@@ -19,7 +19,6 @@ import {
 } from './functions/cartButton';
 import initAccountButtonEventListeners from './functions/accountButton';
 import { initCartEventListeners } from './functions/cartPage';
-import { initCheckoutEventListeners } from './functions/checkout';
 import { initAdminEventListeners } from './functions/admin';
 import { initNavbarEventListeners } from './functions/navbar';
 
