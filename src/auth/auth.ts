@@ -1,22 +1,20 @@
 import { doGraphQLFetch } from '../graphql/fetch';
 import { loginQuery, registerQuery } from '../graphql/queries';
+import { getUsers, postUser } from '../rest/usersFetch';
 
 export async function login(
-  username: string,
+  email: string,
   password: string
 ): Promise<{ success: boolean; user?: any; error?: string }> {
   try {
-    const credentials = { username, password };
+    const allUsers = await getUsers(`${import.meta.env.VITE_API_URL}`);
 
-    const data = await doGraphQLFetch(
-      `${import.meta.env.VITE_GRAPHQL_URL}`,
-      loginQuery,
-      { credentials }
-    );
+    // find user with username in allUsers
+    const user = allUsers.find((user: any) => user.email === email);
 
-    if (data.login) {
-      sessionStorage.setItem('token', JSON.stringify(data.login.token));
-      return { success: true, user: data.login };
+    if (user && user.password === password) {
+      sessionStorage.setItem('token', JSON.stringify(user.id));
+      return { success: true, user: user };
     } else {
       return { success: false, error: 'Login failed. Please try again.' };
     }
@@ -36,14 +34,11 @@ export async function register(
   email: string
 ): Promise<any> {
   try {
-    const user = { username, password, email };
-    const data = await doGraphQLFetch(
-      `${import.meta.env.VITE_GRAPHQL_URL}`,
-      registerQuery,
-      { user }
-    );
-    if (data.register) {
-      sessionStorage.setItem('token', JSON.stringify(data.register.token));
+    const user = { username, password, email, isAdmin: false };
+    const data = await postUser(`${import.meta.env.VITE_API_URL}`, user);
+    console.log('data', data);
+    if (data) {
+      sessionStorage.setItem('token', JSON.stringify(data.id));
       return { success: true, user: data.register };
     }
   } catch (error: any) {

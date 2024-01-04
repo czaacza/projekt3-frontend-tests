@@ -7,23 +7,6 @@ export default function checkoutSection(user?: User, cart?: any): string {
     phone: '',
   };
 
-  // const cartItems = cart?.books
-  //   ?.map((cartItem: any) => {
-  //     const book = cartItem.book;
-  //     return `
-  //     <div class="row mb-3">
-  //       <img class="col-md-3" src="${book.image}" alt="" />
-  //       <div>
-  //         <p class="card-text">${book.title}</p>
-  //         <p class="card-text">${book.author}</p>
-  //         <p class="card-text">Quantity: ${cartItem.quantity}</p>
-  //       </div>
-  //     </div>
-  //     <hr />
-  //   `;
-  //   })
-  //   .join('');
-
   const modalHtml = `<section class="checkout-section">
     <div class="container">
       <h2 class="text-center mb-5">Checkout</h2>
@@ -66,7 +49,7 @@ export default function checkoutSection(user?: User, cart?: any): string {
                         const book = cartItem.book;
                         return `
                           <div class="row mb-3">
-                            <img class="col-md-3" src="img/${book.image}" alt="" />
+                            <img class="col-md-3" src="img/book.png" alt="" />
                             <div>
                               <p class="card-text">${book.title}</p>
                               <p class="card-text">${book.author}</p>
@@ -86,12 +69,7 @@ export default function checkoutSection(user?: User, cart?: any): string {
           </div>
           <div class="card mb-4">
             <div class="card-body">
-              <h5 class="card-title">Payment Information</h5>
-              <div id="card-element" class="form-control"></div>
-              <div id="card-errors" role="alert"></div>
-           
-              
-              <button id="place-order-button" class="btn btn-primary btn-block mt-5">
+              <button id="place-order-button" class="btn btn-primary btn-block">
                 Place Order
               </button>
             </div>

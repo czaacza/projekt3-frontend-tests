@@ -8,18 +8,20 @@ export function addToCart(book: Book): void {
     total: 0,
   };
 
+  console.log('cart', cart);
+
   const index = cart.books.findIndex((item) => item.book.id === book.id);
+  cart.total = 0;
 
   if (index !== -1) {
     cart.books[index].quantity += 1;
+    cart.total += cart.books[index].quantity;
   } else {
     cart.books.push({ book, quantity: 1 });
   }
 
-  cart.total += book.price;
-
   sessionStorage.setItem('cart', JSON.stringify(cart));
-  updateCartTotal();
+  // updateCartTotal();
 }
 
 export function initAddToCartButtons(): void {
@@ -33,6 +35,11 @@ export function initAddToCartButtons(): void {
       if (bookData) {
         const book = JSON.parse(bookData);
         console.log('book', book);
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+          router.navigate('/');
+          return;
+        }
         addToCart(book);
       }
     });
@@ -49,7 +56,7 @@ export function updateCartTotal(): void {
       element.textContent = storedCart.total.toFixed(2);
     });
 
-    updateDropdownMenu(storedCart);
+    // updateDropdownMenu(storedCart);
   }
 }
 
@@ -69,13 +76,12 @@ function updateDropdownMenu(storedCart: Cart): void {
                   <div class="cart-item-title">${book.title}</div>
                   <div class="cart-item-author">${book.author}</div>
                   <div class="cart-item-quantity">Quantity: ${cartItem.quantity}</div>
-                  <div class="cart-item-price">$${book.price}</div>
                 </div>
               </li>
             `;
           })
           .join('')
-      : `<li class="cart-item-entry">Your cart is empty</li>`;
+      : `<li class="cart-item-entry">Your order is empty</li>`;
   }
 }
 

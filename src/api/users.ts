@@ -1,30 +1,28 @@
 import jwt_decode from 'jwt-decode';
-import { UserFromToken } from '../interfaces/User';
+import { User } from '../interfaces/User';
 import { doGraphQLFetch } from '../graphql/fetch';
 import { userByIdQuery } from '../graphql/queries';
-export async function getStoredUser(checkIfAdmin?: boolean) {
-  const token = sessionStorage.getItem('token');
+import { getUser } from '../rest/usersFetch';
+
+export async function getStoredUser() {
+  // get token without first and last char
+  let token = sessionStorage.getItem('token');
   if (!token) {
     return undefined;
   }
+  if (token[0] === '"' && token[token.length - 1] === '"') {
+    token = token.slice(1, -1);
+  }
+
+  console.log('token: ', token);
 
   try {
-    const userFromToken: UserFromToken = jwt_decode(token);
+    const userFromToken: User = await getUser(
+      `${import.meta.env.VITE_API_URL}`,
+      token
+    );
     if (userFromToken) {
-      const data = await doGraphQLFetch(
-        `${import.meta.env.VITE_GRAPHQL_URL}`,
-        userByIdQuery,
-        {
-          userByIdId: userFromToken.id,
-        }
-      );
-      if (checkIfAdmin) {
-        return {
-          ...data.userById,
-          isAdmin: userFromToken.isAdmin,
-        };
-      }
-      return data.userById;
+      return userFromToken;
     }
   } catch (error) {
     console.error(error);
@@ -32,10 +30,12 @@ export async function getStoredUser(checkIfAdmin?: boolean) {
   }
 }
 
-export function isUserAdmin(token: string): boolean {
-  const userFromToken: UserFromToken = jwt_decode(token);
-  if (userFromToken) {
-    return userFromToken.isAdmin === true;
+export function isUserAdmin(user: User | undefined) {
+  if (!user) {
+    return false;
+  }
+  if (user.isAdmin) {
+    return true;
   }
   return false;
 }

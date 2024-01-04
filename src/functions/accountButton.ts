@@ -1,46 +1,32 @@
 import { getStoredUser } from '../api/users';
 import { doGraphQLFetch } from '../graphql/fetch';
 import { updateUserQuery } from '../graphql/queries';
+import { updateUser } from '../rest/usersFetch';
 
 async function saveChanges(
-  firstName: string,
-  lastName: string,
+  username: string,
   email: string,
-  phone: string
+  password: string
 ): Promise<{ success: boolean; user?: any; error?: string }> {
   const user = await getStoredUser();
-  const token = sessionStorage.getItem('token')?.slice(1, -1);
 
   if (email === '' || email.indexOf('@') === -1 || email.indexOf('.') === -1) {
     return { success: false, error: 'Email is required' };
   }
 
-  if (!user || !token) {
+  if (!user) {
     return { success: false, error: 'User not logged in' };
   }
 
-  const variables = {
-    user: {
-      id: user.id,
-      email: email,
-      details: {
-        firstName,
-        lastName,
-        phone,
-      },
-    },
-  };
-  console.log('variables:', variables);
-  console.log('token:', token);
+  const data = updateUser(`${import.meta.env.VITE_API_URL}`, user.id, {
+    username,
+    email,
+    password,
+    isAdmin: user.isAdmin,
+  });
 
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    updateUserQuery,
-    variables,
-    token
-  );
-  if (data.updateUser) {
-    return { success: true, user: data.updateUser };
+  if (data) {
+    return { success: true, user: data };
   }
   return { success: false, error: 'Update failed. Please try again.' };
 }
@@ -50,18 +36,14 @@ export default async function initAccountButtonEventListeners() {
 
   accountButton?.addEventListener('click', async (event: any) => {
     event.preventDefault();
-    const firstName =
-      document.querySelector<HTMLInputElement>('#accountFirstName')?.value ||
-      '';
-    const lastName =
-      document.querySelector<HTMLInputElement>('#accountLastName')?.value || '';
+    const username =
+      document.querySelector<HTMLInputElement>('#accountUsername')?.value || '';
     const email =
       document.querySelector<HTMLInputElement>('#accountEmail')?.value || '';
-    const phone =
-      document.querySelector<HTMLInputElement>('#accountPhoneNumber')?.value ||
-      '';
+    const password =
+      document.querySelector<HTMLInputElement>('#accountPassword')?.value || '';
 
-    const save = await saveChanges(firstName, lastName, email, phone);
+    const save = await saveChanges(username, email, password);
     if (save.success) {
       showSuccessMessage();
     } else {

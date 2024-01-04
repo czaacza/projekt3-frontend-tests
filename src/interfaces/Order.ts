@@ -1,14 +1,17 @@
 import { Types } from 'mongoose';
-import { Book } from './Book';
 
 interface Order {
-  userId: Types.ObjectId;
+  user_id: string;
   books: {
-    book: Book | string;
+    id: string;
+    order_id?: string;
     quantity: number;
   }[];
-  totalPrice: number;
-  address: string;
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  comments?: string;
   status: string;
 }
 

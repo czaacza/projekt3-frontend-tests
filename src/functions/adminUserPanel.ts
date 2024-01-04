@@ -7,6 +7,7 @@ import {
   getUsersQuery,
   updateUserAsAdminQuery,
 } from '../graphql/queries';
+import { getUsers, updateUser, deleteUser } from '../rest/usersFetch';
 import { User } from '../interfaces/User';
 import ordersSection from '../views/account/ordersSection';
 import { showErrorMessage, showSuccessMessage } from './admin';
@@ -18,13 +19,9 @@ export const initUserSectionEventListeners = (): void => {
 };
 
 export async function fetchUsers() {
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    getUsersQuery,
-    {}
-  );
-  if (data && data.users) {
-    return data.users;
+  const data = await getUsers(`${import.meta.env.VITE_API_URL}`);
+  if (data) {
+    return data;
   }
 
   return undefined;
@@ -44,12 +41,6 @@ export const usersClickHandler = (users: User[]) => {
       user.username;
     (document.querySelector('#user-email') as HTMLInputElement).value =
       user.email;
-    (document.querySelector('#user-first-name') as HTMLInputElement).value =
-      user.details!.firstName;
-    (document.querySelector('#user-last-name') as HTMLInputElement).value =
-      user.details!.lastName;
-    (document.querySelector('#user-phone') as HTMLInputElement).value =
-      user.details!.phone;
   };
 
   users.forEach((user) => {
@@ -81,24 +72,17 @@ async function updateAdminUser(
     return { success: false, error: 'User not logged in' };
   }
 
-  const variables = {
-    user: {
-      id: user.id,
-      username: user.username,
-      email: user.email,
-      details: user.details,
-    },
-    updateUserAsAdminId: user.id,
-  };
+  const data = await updateUser(`${import.meta.env.VITE_API_URL}`, user.id, {
+    username: user.username,
+    email: user.email,
+    password: user.password,
+    isAdmin: user.isAdmin,
+  });
 
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    updateUserAsAdminQuery,
-    variables,
-    token
-  );
+  console.log('updateUser', data);
+
   if (data) {
-    return { success: true, user: data.updateUser };
+    return { success: true, user: data };
   }
   return { success: false, error: 'Update failed. Please try again.' };
 }
@@ -114,22 +98,11 @@ export default async function initAdminUserUpdateButtonEventListener() {
       document.querySelector<HTMLInputElement>('#user-username')?.value || '';
     const email =
       document.querySelector<HTMLInputElement>('#user-email')?.value || '';
-    const firstName =
-      document.querySelector<HTMLInputElement>('#user-first-name')?.value || '';
-    const lastName =
-      document.querySelector<HTMLInputElement>('#user-last-name')?.value || '';
-    const phone =
-      document.querySelector<HTMLInputElement>('#user-phone')?.value || '';
 
     const userToUpdate = {
       id: userId,
       username,
       email,
-      details: {
-        firstName,
-        lastName,
-        phone,
-      },
     };
 
     const updateResult = await updateAdminUser(userToUpdate);
@@ -142,21 +115,11 @@ export default async function initAdminUserUpdateButtonEventListener() {
 }
 
 async function deleteUserAsAdmin(
-  userId: string,
-  adminToken: string
+  userId: string
 ): Promise<{ success: boolean; error?: string }> {
-  const variables = {
-    deleteUserAsAdminId: userId,
-  };
+  const data = await deleteUser(`${import.meta.env.VITE_API_URL}`, userId);
 
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    deleteUserAsAdminQuery,
-    variables,
-    adminToken
-  );
-
-  if (data.deleteUserAsAdmin) {
+  if (data) {
     return { success: true };
   } else {
     return {
@@ -176,7 +139,7 @@ export const initDeleteButton = () => {
   deleteUserButton.addEventListener('click', async () => {
     const userId = (document.querySelector('#user-id') as HTMLInputElement)
       .value;
-    const result = await deleteUserAsAdmin(userId, adminToken);
+    const result = await deleteUserAsAdmin(userId);
 
     if (result.success) {
       // Show success message and remove user from the list

@@ -11,13 +11,13 @@ export default function productSection(books?: any): string {
                 return `
               <div class="col-md-4">
                 <div class="card mb-4">
-                  <img class="card-img-top" src="/img/${book.image}" alt="Book Cover" />
+                  <img class="card-img-top" src="/img/book.png" alt="Book Cover" />
                   <div class="card-body">
                     <h5 class="card-title">${book.title}</h5>
                     <p class="card-text">${book.author}</p>
-                    <p class="card-text">$${book.price}</p>
+                    <p class="card-text">${book.year}</p>
                     <button class="btn btn-primary add-to-cart-btn" data-book='${bookData}'>
-                      Add to Cart
+                      Add to Your Books
                     </button>
                   </div>
                 </div>

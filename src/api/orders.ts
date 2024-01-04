@@ -12,20 +12,20 @@ export default async function getUserOrders(user: User | undefined) {
     return undefined;
   }
 
-  const variables = {
-    userId: user.id,
-  };
+  // const variables = {
+  //   userId: user.id,
+  // };
 
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    userOrdersQuery,
-    variables,
-    token
-  );
+  // const data = await doGraphQLFetch(
+  //   `${import.meta.env.VITE_GRAPHQL_URL}`,
+  //   userOrdersQuery,
+  //   variables,
+  //   token
+  // );
 
-  if (data.ordersByUser) {
-    return data.ordersByUser;
-  }
+  // if (data.ordersByUser) {
+  //   return data.ordersByUser;
+  // }
 
   return undefined;
 }

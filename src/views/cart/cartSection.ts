@@ -1,6 +1,14 @@
 import { Cart } from '../../interfaces/Cart';
 
 export default function cartSection(cart?: Cart): string {
+  // get quantity for each book in cart
+  let total_quantity = 0;
+  if (cart) {
+    for (const cartItem of cart.books) {
+      total_quantity += cartItem.quantity;
+    }
+  }
+
   const cartItemsHtml =
     cart && cart.books.length
       ? cart.books
@@ -12,7 +20,7 @@ export default function cartSection(cart?: Cart): string {
               <div class="col-md-3">
                 <img
                   class="card-img cart-item-img"
-                  src="/img/${book.image}"
+                  src="/img/book.png"
                   alt="Book Cover"
                 />
               </div>
@@ -23,13 +31,7 @@ export default function cartSection(cart?: Cart): string {
                   <div class="form-group d-flex align-items-center">
                     <label for="quantity">Quantity:</label>
                     <span id="quantity" class="mx-2">${cartItem.quantity}</span>
-                    <button class="btn btn-outline-secondary btn-sm ml-2" data-action="decrease">-</button>
-                    <button class="btn btn-outline-secondary btn-sm" data-action="increase">+</button>
                   </div>
-                  <p class="card-text">
-                    <strong>Price: </strong>
-                    <span id="price">$${book.price.toFixed(2)}</span>
-                  </p>
                 </div>
               </div>
             </div>
@@ -50,15 +52,9 @@ export default function cartSection(cart?: Cart): string {
           <div class="card mb-4">
             <div class="card-body">
               <h5 class="card-title">Order Summary</h5>
-              <p class="card-text">
-                Subtotal: <span id="subtotal">$${
-                  cart && cart.total ? cart.total.toFixed(2) : '0.00'
-                }</span>
-              </p>
-              <p class="card-text">Shipping: Free</p>
               <h4 class="card-title">
-                Total: <span id="total">$${
-                  cart && cart.total ? cart.total.toFixed(2) : '0.00'
+                Total number of books: <span id="total">${
+                  cart ? total_quantity : '0'
                 }</span>
               </h4>
               <a href="/checkout"id="checkout-button" class="btn btn-primary btn-block mt-3">

@@ -29,18 +29,6 @@ export default function adminUserPanel(users?: User[]): string {
               <label for="user-email" class="form-label">Email</label>
               <input type="email" class="form-control" id="user-email" required>
             </div>
-            <div class="mb-3">
-              <label for="user-first-name" class="form-label">First Name</label>
-              <input type="text" class="form-control" id="user-first-name" required>
-            </div>
-            <div class="mb-3">
-              <label for="user-last-name" class="form-label">Last Name</label>
-              <input type="text" class="form-control" id="user-last-name" required>
-            </div>
-            <div class="mb-3">
-              <label for="user-phone" class="form-label">Phone</label>
-              <input type="tel" class="form-control" id="user-phone" required>
-            </div>
             <button type="submit" class="btn btn-primary btn-squared btn-danger" id="btn-update-user">Update User</button>
             <button type="button" class="btn btn-danger btn-squared" id="btn-delete-user">Delete User</button>
             <button type="submit" class="btn btn-primary btn-squared" id="btn-add-user-form">Add new User</button>

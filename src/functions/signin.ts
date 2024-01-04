@@ -21,17 +21,16 @@ export function closeSignin(): void {
 export async function submitSigninForm(event: Event): Promise<void> {
   event.preventDefault();
 
-  const usernameInput =
-    document.querySelector<HTMLInputElement>('#signinEmail');
+  const emailInput = document.querySelector<HTMLInputElement>('#signinEmail');
   const passwordInput =
     document.querySelector<HTMLInputElement>('#signinPassword');
 
-  if (usernameInput && passwordInput) {
-    const username = usernameInput.value;
+  if (emailInput && passwordInput) {
+    const email = emailInput.value;
     const password = passwordInput.value;
 
-    const result = await login(username, password);
-    console.log(result);
+    const result = await login(email, password);
+    console.log('login result', result);
 
     if (result.success) {
       closeSignin();

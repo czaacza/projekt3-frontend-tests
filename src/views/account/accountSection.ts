@@ -2,12 +2,11 @@ import { isUserAdmin } from '../../api/users';
 import { User } from '../../interfaces/User';
 
 export default function accountSection(user?: User): string {
-  const { username, email, details } = user || {};
+  console.log('accountSection', user);
+  const { username, email, password, details } = user || {};
   const { firstName, lastName, phone } = details || {};
 
-  const isAdmin = isUserAdmin(
-    sessionStorage.getItem('token')?.slice(1, -1) || ''
-  );
+  const isAdmin = isUserAdmin(user);
 
   const modalHtml = `<div class="container account-container">
     <h2 class="text-center mt-3 mb-5">Welcome, <span id="username">${
@@ -25,15 +24,9 @@ export default function accountSection(user?: User): string {
         <h3>Account Details</h3>
         <form id="accountForm">
           <div class="mb-3">
-            <label for="accountFirstName" class="form-label">First Name</label>
-            <input type="text" class="form-control account-form-control" id="accountFirstName" value="${
-              firstName || ''
-            }" required />
-          </div>
-          <div class="mb-3">
-            <label for="accountLastName" class="form-label">Last Name</label>
-            <input type="text" class="form-control account-form-control" id="accountLastName" value="${
-              lastName || ''
+            <label for="accountUsername" class="form-label">Username</label>
+            <input type="text" class="form-control account-form-control" id="accountUsername" value="${
+              username || ''
             }" required />
           </div>
           <div class="mb-3">
@@ -43,14 +36,10 @@ export default function accountSection(user?: User): string {
             }" required />
           </div>
           <div class="mb-3">
-            <label for="accountPhoneNumber" class="form-label">Phone Number</label>
-            <input
-              type="tel"
-              class="form-control account-form-control"
-              id="accountPhoneNumber"
-              value="${phone || ''}"
-              required
-            />
+            <label for="accountPassword" class="form-label">Password</label>
+            <input type="text" class="form-control account-form-control" id="accountPassword" value="${
+              password || ''
+            }" required />
           </div>
           <button type="submit" class="btn btn-primary btn-save-changes" id="btn-save-changes">Save Changes</button>
         </form>

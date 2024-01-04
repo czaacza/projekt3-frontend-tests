@@ -4,7 +4,9 @@ export default function ordersSection(orders: any, products: any): string {
   const findBookById = (books: Book[], bookId: string) => {
     return books.find((book: Book) => book.id === bookId);
   };
-
+  if (!orders) {
+    return '';
+  }
   const ordersHtml = orders
     .map((order: any, index: any) => {
       const { books, totalPrice, details, status } = order;

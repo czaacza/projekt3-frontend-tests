@@ -101,8 +101,8 @@ export default function navbar(user?: any, cart?: Cart): string {
 
       <li class="nav-item active cart-item">
         <a class="nav-link" href="/cart/"
-          >$<span class="cart-total-price">
-          ${cart && cart.total ? cart.total.toFixed(2) : '0.00'}
+          ><span class="cart-total-price">
+          Your books
           </span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -127,13 +127,12 @@ export default function navbar(user?: any, cart?: Cart): string {
                   return `
                       <li class="cart-item-entry">
                         <div class="cart-item-image">
-                          <img src="/img/${book.image}" alt="book-image" />
+                          <img src="/img/book.png" alt="book-image" />
                         </div>
                         <div class="cart-item-info">
                           <div class="cart-item-title">${book.title}</div>
                           <div class="cart-item-author">${book.author}</div>
                           <div class="cart-item-quantity">Quantity: ${cartItem.quantity}</div>
-                          <div class="cart-item-price">$${book.price}</div>
                         </div>
                       </li>
                     `;
@@ -143,10 +142,7 @@ export default function navbar(user?: any, cart?: Cart): string {
         }
       </ul>
       <div class="cart-summary d-flex justify-content-between align-items-center pd-4">
-        <div class="cart-total">Total: $<span class="cart-total-price">
-        ${cart && cart.total ? cart.total.toFixed(2) : '0.00'}
-        </span></div>
-        <a href="/cart/"> <button class="btn btn-primary move-to-cart-button">Move to cart</button></a>
+        <a href="/cart/"> <button class="btn btn-primary move-to-cart-button">Reserve</button></a>
       </div>
     </div>
       </li>

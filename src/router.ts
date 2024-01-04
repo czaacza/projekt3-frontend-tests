@@ -30,9 +30,14 @@ const router = new Navigo('');
 
 router
   .on('/', async () => {
+    console.log('router.on(/)');
     const storedUser = await getStoredUser();
+    console.log('storedUser', storedUser);
     const products = await fetchProducts();
+    console.log('products', products);
+
     const storedCart = getStoredCart();
+    console.log('storedCart', storedCart);
 
     const contentElement = document.querySelector<HTMLDivElement>('#app');
 
@@ -44,7 +49,15 @@ router
 
   .on('/cart', async () => {
     const storedUser = await getStoredUser();
+    console.log('storedUser: ', storedUser);
+
+    if (!storedUser) {
+      router.navigate('/');
+      return;
+    }
+
     const storedCart = getStoredCart();
+    console.log('storedCart: ', storedCart);
     // initQuantityButtonsEventListeners();
 
     const contentElement = document.querySelector<HTMLDivElement>('#app');
@@ -62,14 +75,26 @@ router
     const storedCart = getStoredCart();
     const contentElement = document.querySelector<HTMLDivElement>('#app');
     contentElement!.innerHTML = checkoutIndex(storedUser, storedCart);
+    initCheckoutEventListeners();
     initEventListeners();
   })
 
   .on('/account', async () => {
     const storedUser = await getStoredUser();
+    console.log('storedUser: ', storedUser);
+
+    // TO DO
     const userOrders = await getUserOrders(storedUser);
+    console.log('userOrders: ', userOrders);
     const products = await fetchProducts();
+    console.log('products: ', products);
     const storedCart = getStoredCart();
+    console.log('storedCart: ', storedCart);
+
+    if (!storedUser) {
+      router.navigate('/');
+      return;
+    }
 
     const contentElement = document.querySelector<HTMLDivElement>('#app');
     contentElement!.innerHTML = accountIndex(
@@ -82,14 +107,13 @@ router
   })
 
   .on('/account/admin', async () => {
-    const storedUser = await getStoredUser(true);
-    console.log('storedUser: ', storedUser);
+    const storedUser = await getStoredUser();
     if (!storedUser) {
       router.navigate('/');
       return;
     }
 
-    if (!checkIfAdminAllowed(storedUser.isAdmin as boolean)) {
+    if (!storedUser.isAdmin) {
       router.navigate('/');
       return;
     }

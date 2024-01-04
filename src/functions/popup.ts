@@ -23,7 +23,7 @@ export async function submitSignupForm(event: Event): Promise<void> {
 
   const usernameInput = document.querySelector<HTMLInputElement>('#signupName');
   const passwordInput =
-    document.querySelector<HTMLInputElement>('#signinPassword');
+    document.querySelector<HTMLInputElement>('#signupPassword');
   const emailInput = document.querySelector<HTMLInputElement>('#signupEmail');
 
   if (usernameInput && passwordInput && emailInput) {

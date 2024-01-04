@@ -6,6 +6,7 @@ import {
 } from '../graphql/queries';
 import { Book as Product } from '../interfaces/Book';
 import { showErrorMessage, showSuccessMessage } from './admin';
+import { updateProduct, deleteProduct } from '../rest/productsFetch';
 
 export const initProductSectionEventListeners = (): void => {
   initAdminProductUpdateButtonEventListener();
@@ -50,25 +51,23 @@ export const productsClickHandler = (products: Product[]) => {
 async function updateAdminProduct(
   product: Product
 ): Promise<{ success: boolean; product?: Product; error?: string }> {
-  const variables = {
-    bookModifyInput: {
-      id: product.id,
-      title: product.title,
-      author: product.author,
-      description: product.description,
-      price: product.price,
-      image: product.image,
-    },
-    updateProductAsAdminId: product.id,
+  const productToUpdate = {
+    id: product.id,
+    title: product.title,
+    author: product.author,
   };
 
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    updateProductAsAdminQuery,
-    variables
+  console.log('productToUpdate', productToUpdate);
+
+  const data = await updateProduct(
+    import.meta.env.VITE_API_URL,
+    productToUpdate.id,
+    productToUpdate
   );
+  console.log('updatedProduct', data);
+
   if (data) {
-    return { success: true, product: data.updateBook };
+    return { success: true, product: data };
   }
   return { success: false, error: 'Update failed. Please try again.' };
 }
@@ -117,13 +116,12 @@ async function deleteProductAsAdmin(
     deleteBookId: productId,
   };
 
-  const data = await doGraphQLFetch(
-    `${import.meta.env.VITE_GRAPHQL_URL}`,
-    deleteProductAsAdminQuery,
-    variables
+  const data = await deleteProduct(
+    `${import.meta.env.VITE_API_URL}`,
+    productId
   );
 
-  if (data.deleteBook) {
+  if (data) {
     return { success: true };
   } else {
     return {
@@ -275,6 +273,7 @@ export function generateProductsList(products: Product[] | undefined) {
   if (!products) {
     return '';
   }
+  console.log('products', products);
 
   return products
     .map(
