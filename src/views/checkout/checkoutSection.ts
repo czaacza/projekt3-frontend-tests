@@ -62,7 +62,7 @@ export default function checkoutSection(user?: User, cart?: any): string {
                       .join('')
                   : `<p class="card-text">No items in the cart.</p>`
               }
-              <h6 class="card-text">Total: $${
+              <h6 class="card-text">Total: ${
                 cart && cart.total ? cart.total.toFixed(2) : '0.00'
               }</h6>
             </div>

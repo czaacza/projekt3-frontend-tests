@@ -37,7 +37,7 @@ export async function submitSignupForm(event: Event): Promise<void> {
       closePopup();
       // Set up the logged-in user's screen here, e.g., by displaying the user's name
       console.log('User logged in', result.user);
-      // location.reload();
+      location.reload();
     } else {
       // Show an error message to the user, e.g., by displaying it in the signin form
       console.log('Login failed', result.error);
