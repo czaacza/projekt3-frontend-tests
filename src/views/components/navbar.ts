@@ -100,7 +100,7 @@ export default function navbar(user?: any, cart?: Cart): string {
       }
 
       <li class="nav-item active cart-item">
-        <a class="nav-link" href="/cart/"
+        <a class="nav-link cart-button" href="/cart/"
           ><span class="cart-total-price">
           Your books
           </span>

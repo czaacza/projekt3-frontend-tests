@@ -136,6 +136,10 @@ export const initDeleteButton = () => {
     '#btn-delete-user'
   ) as HTMLButtonElement;
 
+  if (!deleteUserButton) {
+    return;
+  }
+
   deleteUserButton.addEventListener('click', async () => {
     const userId = (document.querySelector('#user-id') as HTMLInputElement)
       .value;
@@ -198,6 +202,10 @@ export const initAddNewUserButton = () => {
     userDetailsForm.reset();
     userDetailsForm.classList.add('d-none');
   };
+
+  if (!addNewUserButton) {
+    return;
+  }
 
   addNewUserButton.addEventListener('click', async () => {
     clearUserDetailsForm();

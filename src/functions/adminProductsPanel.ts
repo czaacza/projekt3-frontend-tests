@@ -136,6 +136,10 @@ export const initDeleteButton = () => {
     '#btn-delete-product'
   ) as HTMLButtonElement;
 
+  if (!deleteProductButton) {
+    return;
+  }
+
   deleteProductButton.addEventListener('click', async () => {
     const productId = (
       document.querySelector('#product-id') as HTMLInputElement
@@ -191,6 +195,10 @@ export const initAddNewProductButton = () => {
   const productDetailsForm = document.querySelector(
     '#product-details-form'
   ) as HTMLFormElement;
+
+  if (!addNewProductButton || !productDetailsForm) {
+    return;
+  }
 
   console.log('addNewProductButton', addNewProductButton);
 
