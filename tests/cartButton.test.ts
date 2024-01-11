@@ -2,7 +2,7 @@ import { addToCart, getStoredCart } from '../src/functions/cartButton';
 import { Book } from '../src/interfaces/Book';
 
 // Mocks
-jest.mock('../router', () => ({
+jest.mock('../src/router', () => ({
   navigate: jest.fn(),
 }));
 

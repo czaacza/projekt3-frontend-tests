@@ -60,31 +60,6 @@ export function updateCartTotal(): void {
   }
 }
 
-function updateDropdownMenu(storedCart: Cart): void {
-  const cartItemsList = document.querySelector('.cart-items-list');
-  if (cartItemsList) {
-    cartItemsList.innerHTML = storedCart.books.length
-      ? storedCart.books
-          .map((cartItem) => {
-            const book = cartItem.book;
-            return `
-              <li class="cart-item-entry">
-                <div class="cart-item-image">
-                  <img src="img/${book.image}" alt="" />
-                </div>
-                <div class="cart-item-info">
-                  <div class="cart-item-title">${book.title}</div>
-                  <div class="cart-item-author">${book.author}</div>
-                  <div class="cart-item-quantity">Quantity: ${cartItem.quantity}</div>
-                </div>
-              </li>
-            `;
-          })
-          .join('')
-      : `<li class="cart-item-entry">Your order is empty</li>`;
-  }
-}
-
 export function initCartButtonEventListener(): void {
   const cartButton = document.querySelector('.cart-item a');
   if (cartButton) {
