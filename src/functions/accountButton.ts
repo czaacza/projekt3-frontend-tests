@@ -3,7 +3,7 @@ import { doGraphQLFetch } from '../graphql/fetch';
 import { updateUserQuery } from '../graphql/queries';
 import { updateUser } from '../rest/usersFetch';
 
-async function saveChanges(
+export async function saveChanges(
   username: string,
   email: string,
   password: string
