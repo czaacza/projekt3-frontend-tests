@@ -1,6 +1,6 @@
 import { logout } from '../auth/auth';
 
-function handleLogoutButtonClick() {
+export function handleLogoutButtonClick() {
   logout();
   location.reload();
 }

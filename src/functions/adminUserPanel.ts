@@ -55,7 +55,7 @@ export const usersClickHandler = (users: User[]) => {
   });
 };
 
-async function updateAdminUser(
+export async function updateAdminUser(
   user: User
 ): Promise<{ success: boolean; user?: User; error?: string }> {
   const token = sessionStorage.getItem('token')?.slice(1, -1);
